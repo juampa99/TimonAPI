@@ -1,6 +1,8 @@
-const setup = require('./setup');
+require('dotenv').config();
 
-const PORT = 8080; // This should be moved to an .env file
+const PORT = process.env.PORT || 8080;
+
+const setup = require('./setup');
 
 const app = setup();
 
