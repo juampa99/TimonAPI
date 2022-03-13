@@ -30,7 +30,7 @@ const login = async (req, res) => {
 
   try {
     const user = await getUser(email);
-    const validated = user.password === password;
+    const validated = bcrypt.compare(password, user.password);
     const body = { id: user.id, email: user.email };
     const token = jwt.sign(body, process.env.JWT_KEY || 'SECRET_KEY');
 
@@ -41,11 +41,13 @@ const login = async (req, res) => {
         token
       });
     } else if (!validated) {
+      res.status(401);
       res.json({
         message: 'Invalid password'
       });
     }
   } catch (e) {
+    res.status(401);
     res.json({
       message: 'Invalid user'
     });

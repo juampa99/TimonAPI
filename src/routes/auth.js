@@ -7,7 +7,6 @@ router.post('/register', signup);
 router.post('/login', login);
 
 router.get('/protected', authMiddleware, async (req, res) => {
-  console.log(req.user);
   res.json(
     {
       message: 'You made it to the secure route',
