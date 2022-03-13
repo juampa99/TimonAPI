@@ -1,6 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Sequelize } = require('sequelize');
+const bcrypt = require('bcrypt');
+const PasswordValidator = require('password-validator');
+const emailValidator = require('email-validator');
 
 const UserModel = require('./src/models/user');
 const CharacterModel = require('./src/models/character');
@@ -8,11 +11,12 @@ const MediaModel = require('./src/models/media');
 const GenreModel = require('./src/models/genre');
 const auth = require('./src/routes/auth');
 
-const setupDb = () => new Sequelize({
-  dialect: process.env.DB_DIALECT,
-  storage: process.env.DB_PATH || `${process.cwd()}/data/database.db`,
+
+const setupDb = (dbPath) => new Sequelize({
+  dialect: 'sqlite',
+  storage: dbPath || `${process.cwd()}/data/database.db`,
   /* Change this if you want to avoid spam on your terminal :D */
-  logging: console.log
+  logging: ()=> {}
 });
 
 /**
@@ -31,7 +35,37 @@ const setupModels = async (sequelizeInstance, force = false) => {
   await CharacterModel.sync({ force });
   await GenreModel.sync({ force });
 
+  UserModel.prototype.setPassword = function (password) {
+    this.password = password;
+  };
+
   sequelizeInstance.sync({ force });
+};
+
+const addHooksToModels = () => {
+  UserModel.addHook('beforeSave', async (user, options) => {
+    const schema = new PasswordValidator();
+
+    // Passwords must be between 10 and 30 characters, have at least one lower case
+    // and one upper case character and at least one digit. Passwords also can't have spaces
+    schema
+      .is().min(10)
+      .is().max(30)
+      .has().uppercase()
+      .has().lowercase()
+      .has().digits(1)
+      .has().not().spaces();
+
+    if (schema.validate(user.password)) {
+      user.password = await bcrypt.hash(user.password, 10);
+    } else {
+      return Promise.reject(new Error("Password doesn't match criteria"));
+    }
+
+    if (!emailValidator.validate(user.email)) {
+      return Promise.reject(new Error('Email is not valid'));
+    }
+  });
 };
 
 const setupParsers = (app) => {
@@ -49,15 +83,17 @@ const checkForSecurityConcerns = () => {
   }
 };
 
-const setup = () => {
+const setup = async (dbPath = process.env.DB_PATH, forceSync = false, isTest = false) => {
   const app = express();
-  const sequelizeInstance = setupDb();
+  const sequelizeInstance = setupDb(dbPath);
 
-  setupModels(sequelizeInstance, false);
+  await setupModels(sequelizeInstance, forceSync);
   setupParsers(app);
   setupRouters(app);
-  checkForSecurityConcerns();
-
+  if (!isTest) {
+    checkForSecurityConcerns();
+  }
+  addHooksToModels();
 
   return app;
 };

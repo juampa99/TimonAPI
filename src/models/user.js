@@ -12,6 +12,7 @@ module.exports = class UserModel extends Model {
         primaryKey: true,
         autoIncrement: true
       },
+      // TODO: Should be validated as email
       email: {
         type: STRING,
         allowNull: false,

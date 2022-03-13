@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const { register, getUser } = require('../services/auth');
 
@@ -32,8 +33,6 @@ const login = async (req, res) => {
     const validated = user.password === password;
     const body = { id: user.id, email: user.email };
     const token = jwt.sign(body, process.env.JWT_KEY || 'SECRET_KEY');
-
-    console.log(user.password, password);
 
     if (validated) {
       res.json({
