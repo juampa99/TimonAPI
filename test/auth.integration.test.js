@@ -14,9 +14,9 @@ beforeEach('Setup app', async () => {
   app = await setup(':memory:', true, true);
 });
 
-describe('Login route', () => {
-  describe('Expected correct behaviour', () => {
-    it('Should return a 200 response upon login', async () => {
+describe('Auth routes', () => {
+  describe('POST /auth/login route', () => {
+    it('Should return a 200 response and a key upon login', async () => {
       await chai.request(app)
         .post('/auth/register')
         .type('json')
@@ -32,6 +32,38 @@ describe('Login route', () => {
           password: PASSWORD
         });
       assert.equal(res.status, 200);
+      assert.ok(res.body.token);
+    });
+
+    it('Should fail to authenticate upon entering invalid email', async () => {
+      const res = await chai.request(app)
+        .post('/auth/login')
+        .type('json')
+        .send({
+          email: EMAIL,
+          password: PASSWORD
+        });
+      assert.isTrue(res.status >= 300);
+      assert.equal(res.body.message.toLowerCase(), 'invalid email');
+    });
+
+    it('Should fail to authenticate upon entering invalid password', async () => {
+      await chai.request(app)
+        .post('/auth/register')
+        .type('json')
+        .send({
+          email: EMAIL,
+          password: PASSWORD
+        });
+      const res = await chai.request(app)
+        .post('/auth/login')
+        .type('json')
+        .send({
+          email: EMAIL,
+          password: 'notavalidpassword'
+        });
+      assert.isTrue(res.status >= 300);
+      assert.equal(res.body.message.toLowerCase(), 'invalid password');
     });
   });
 });

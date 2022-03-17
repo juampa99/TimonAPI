@@ -10,17 +10,25 @@ beforeEach('Setup app', async () => {
   await setup(':memory:', true, true);
 });
 
-describe('Tests services', () => {
+describe('Auth services', () => {
   describe('getUser', () => {
     it('Should throw an exception for querying a user that doesnt exist', async () => {
       try {
         await getUser(EMAIL);
         assert.isTrue(false);
+      } catch (e) {}
+    });
+
+    it('Should successfully retrieve a registered user', async () => {
+      try {
+        await register(EMAIL, PASSWORD);
+        await getUser(EMAIL);
       } catch (e) {
-        assert.isTrue(true);
+        assert.isTrue(false);
       }
     });
   });
+
   describe('register', () => {
     it('Should add a register successfully', async () => {
       try {
@@ -30,6 +38,7 @@ describe('Tests services', () => {
         assert.isTrue(false);
       }
     });
+
     it('Should throw an exception for adding a duplicate user', async () => {
       try {
         await register(EMAIL);
@@ -37,15 +46,17 @@ describe('Tests services', () => {
         assert.isTrue(false);
       } catch (e) {}
     });
+
     it('Should throw an exception for adding a user with an invalid email', async () => {
       try {
         await register('invalidemail', PASSWORD);
         assert.isTrue(false);
       } catch (e) {}
     });
+
     it('Should throw an exception for adding a user with an invalid password', async () => {
       try {
-        await register(EMAIL, 'invalidpw');
+        await register(EMAIL, 'notavalidpassword');
         assert.isTrue(false);
       } catch (e) {}
     });
