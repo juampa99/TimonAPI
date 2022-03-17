@@ -37,7 +37,7 @@ module.exports = class CharacterModel extends Model {
       modelName: 'character',
       createdAt: 'created_at',
       updatedAt: 'updated_at'
-    })
+    });
     return CharacterModel;
   }
 }

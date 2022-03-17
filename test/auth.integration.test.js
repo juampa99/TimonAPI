@@ -8,13 +8,12 @@ const { getUser, register } = require('../src/services/auth');
 chai.use(ChaiHttp);
 const EMAIL = 'testuser@example.com';
 const PASSWORD = 'testpassworD123';
-let app = null;
-
-beforeEach('Setup app', async () => {
-  app = await setup(':memory:', true, true);
-});
 
 describe('Auth routes', () => {
+  let app = null;
+  beforeEach('Setup app', async () => {
+    app = await setup(':memory:', true, true);
+  });
   describe('POST /auth/login route', () => {
     it('Should return a 200 response and a key upon login', async () => {
       await chai.request(app)

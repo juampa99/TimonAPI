@@ -6,11 +6,11 @@ const { getUser, register } = require('../src/services/auth');
 const EMAIL = 'testuser@example.com';
 const PASSWORD = 'testpassworD123';
 
-beforeEach('Setup app', async () => {
-  await setup(':memory:', true, true);
-});
-
 describe('Auth services', () => {
+  beforeEach('Setup app', async () => {
+    await setup(':memory:', true, true);
+  });
+
   describe('getUser', () => {
     it('Should throw an exception for querying a user that doesnt exist', async () => {
       try {

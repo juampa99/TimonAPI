@@ -10,7 +10,7 @@ const CharacterModel = require('./src/models/character');
 const MediaModel = require('./src/models/media');
 const GenreModel = require('./src/models/genre');
 const auth = require('./src/routes/auth');
-
+const character = require('./src/routes/character');
 
 const setupDb = (dbPath) => new Sequelize({
   dialect: 'sqlite',
@@ -39,7 +39,7 @@ const setupModels = async (sequelizeInstance, force = false) => {
     this.password = password;
   };
 
-  sequelizeInstance.sync({ force });
+  await sequelizeInstance.sync({ force });
 };
 
 const addHooksToModels = () => {
@@ -74,6 +74,7 @@ const setupParsers = (app) => {
 
 const setupRouters = (app) => {
   app.use('/auth', auth);
+  app.use('/', character);
 };
 
 const checkForSecurityConcerns = () => {
