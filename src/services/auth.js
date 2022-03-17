@@ -5,6 +5,4 @@ const register = async (email, password) => UserModel.build({ email, password })
 
 const getUser = async (email) => UserModel.findOne({ where: { email } });
 
-const getAllUsers = async () => UserModel.findAll();
-
-module.exports = { getUser, register, getAllUsers };
+module.exports = { getUser, register };
