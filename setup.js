@@ -9,8 +9,10 @@ const UserModel = require('./src/models/user');
 const CharacterModel = require('./src/models/character');
 const MediaModel = require('./src/models/media');
 const GenreModel = require('./src/models/genre');
+const CharacterMediaModel = require('./src/models/character_media');
 const auth = require('./src/routes/auth');
 const character = require('./src/routes/character');
+const { INTEGER } = require("sequelize").DataTypes;
 
 const setupDb = (dbPath) => new Sequelize({
   dialect: 'sqlite',
@@ -18,6 +20,18 @@ const setupDb = (dbPath) => new Sequelize({
   /* Change this if you want to avoid spam on your terminal :D */
   logging: ()=> {}
 });
+
+const setupModelRelationships = () => {
+  // Many to many relationship
+  CharacterModel.belongsToMany(MediaModel, { through: CharacterMediaModel });
+  MediaModel.belongsToMany(CharacterModel, { through: CharacterMediaModel });
+
+  CharacterModel.hasMany(CharacterMediaModel);
+  CharacterMediaModel.belongsTo(CharacterModel);
+
+  MediaModel.hasMany(CharacterMediaModel);
+  CharacterMediaModel.belongsTo(MediaModel);
+};
 
 /**
 * @param {Sequelize} sequelizeInstance
@@ -29,11 +43,15 @@ const setupModels = async (sequelizeInstance, force = false) => {
   MediaModel.setup(sequelizeInstance);
   CharacterModel.setup(sequelizeInstance);
   GenreModel.setup(sequelizeInstance);
+  CharacterMediaModel.setup(sequelizeInstance);
+
+  setupModelRelationships();
 
   await UserModel.sync({ force });
   await MediaModel.sync({ force });
   await CharacterModel.sync({ force });
   await GenreModel.sync({ force });
+  await CharacterMediaModel.sync({ force });
 
   UserModel.prototype.setPassword = function (password) {
     this.password = password;

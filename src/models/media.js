@@ -18,7 +18,8 @@ module.exports = class MediaModel extends Model {
       },
       title: {
         type: STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       release_date: {
         type: STRING,
@@ -37,7 +38,7 @@ module.exports = class MediaModel extends Model {
       modelName: 'media',
       createdAt: 'created_at',
       updatedAt: 'updated_at'
-    })
+    });
     return MediaModel;
   }
-}
+};
