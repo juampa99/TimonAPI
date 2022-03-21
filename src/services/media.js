@@ -23,6 +23,11 @@ const getDetails = async (title) => {
 };
 
 const createMedia = async ({ image_url, score, title, release_date }) => {
+  if (typeof image_url !== 'string') throw new TypeError('parameter image_url should be of type string');
+  if (typeof release_date !== 'string') throw new TypeError('parameter release_date should be of type string');
+  if (typeof title !== 'string') throw new TypeError('parameter title should be of type string');
+  if (typeof score !== 'number') throw new TypeError('parameter score should be of type number');
+
   await MediaModel.create({ image_url, score, title, release_date });
 };
 
