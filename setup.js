@@ -11,6 +11,7 @@ const MediaModel = require('./src/models/media');
 const GenreModel = require('./src/models/genre');
 const CharacterMediaModel = require('./src/models/character_media');
 const auth = require('./src/routes/auth');
+const media = require('./src/routes/media');
 const character = require('./src/routes/character');
 const { INTEGER } = require("sequelize").DataTypes;
 
@@ -22,7 +23,7 @@ const setupDb = (dbPath) => new Sequelize({
 });
 
 const setupModelRelationships = () => {
-  // Many to many relationship
+  // Many to many
   CharacterModel.belongsToMany(MediaModel, { through: CharacterMediaModel });
   MediaModel.belongsToMany(CharacterModel, { through: CharacterMediaModel });
 
@@ -31,6 +32,9 @@ const setupModelRelationships = () => {
 
   MediaModel.hasMany(CharacterMediaModel);
   CharacterMediaModel.belongsTo(MediaModel);
+
+  // One to many
+  GenreModel.hasMany(MediaModel);
 };
 
 /**
@@ -92,7 +96,8 @@ const setupParsers = (app) => {
 
 const setupRouters = (app) => {
   app.use('/auth', auth);
-  app.use('/', character);
+  app.use('/characters', character);
+  app.use('/movies', media);
 };
 
 const checkForSecurityConcerns = () => {
