@@ -18,8 +18,7 @@ const signup = async (req, res) => {
   } catch (e) {
     res.json(
       {
-        message: 'Signup failed',
-        error: e
+        message: 'Signup failed'
       }
     );
   }
@@ -47,6 +46,7 @@ const login = async (req, res) => {
       });
     }
   } catch (e) {
+    console.log(e);
     res.status(401);
     res.json({
       message: 'Invalid email'

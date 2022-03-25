@@ -48,7 +48,7 @@ const updateMovie = async (req, res) => {
 const createMovie = async (req, res) => {
   try {
     await createMedia(req.query);
-    res.json({ message: `Successfully created ${req.params.title}` });
+    res.json({ message: `Successfully created ${req.query.title}` });
   } catch (e) {
     res.status(500);
     res.json({ message: 'Error updating movie' });

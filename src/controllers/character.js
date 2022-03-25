@@ -46,7 +46,7 @@ const updateCharacterRoute = async (req, res) => {
 const createCharacterRoute = async (req, res) => {
   try {
     await createCharacter(req.query);
-    res.json({ message: `Successfully created ${req.params.name}` });
+    res.json({ message: `Successfully created ${req.query.name}` });
   } catch (e) {
     res.status(500);
     res.json({ message: 'Error updating character' });
