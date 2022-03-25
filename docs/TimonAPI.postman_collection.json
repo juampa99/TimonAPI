@@ -1,0 +1,417 @@
+{
+	"variables": [],
+	"info": {
+		"name": "TimonAPI",
+		"_postman_id": "f694ed8b-5e02-af58-f37d-1d7675e4faa2",
+		"description": "# How to use \n\n1. Start the server\n2. Register through the auth/register route\n2. Login throught the auth/login route\n3. Copy the JWT token you will find in the response\n4. Paste the JWT token in the 'token' header on every request you want to try out",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"description": "",
+			"item": [
+				{
+					"name": "/auth/register",
+					"request": {
+						"url": "http://localhost:8080/auth/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"example@example.com\",\n\t\"password\": \"examplepassword1_A\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/login",
+					"request": {
+						"url": "http://localhost:8080/auth/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"example@example.com\",\n\t\"password\": \"examplepassword1_A\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "characters",
+			"description": "",
+			"item": [
+				{
+					"name": "/characters/create?name=test&age=20&weight=100&background_story=thisisthebackgroundstory&image_url=www.test.com",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/characters/create?name=test&age=20&weight=100&background_story=thisisthebackgroundstory&image_url=www.test.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters",
+								"create"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "test",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "age",
+									"value": "20",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "weight",
+									"value": "100",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "background_story",
+									"value": "thisisthebackgroundstory",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "image_url",
+									"value": "www.test.com",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/characters",
+					"request": {
+						"url": "http://localhost:8080/characters",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {}
+					},
+					"response": []
+				},
+				{
+					"name": "/characters copy",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/characters?name=test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "test",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {}
+					},
+					"response": []
+				},
+				{
+					"name": "/characters/details/test",
+					"request": {
+						"url": "http://localhost:8080/characters/details/test",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/characters/update/test?age=5000",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/characters/update/test?age=5000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters",
+								"update",
+								"test"
+							],
+							"query": [
+								{
+									"key": "age",
+									"value": "5000",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "movies",
+			"description": "",
+			"item": [
+				{
+					"name": "/movies/create?title=test&score=5&release_date=1/1/2001&image_url=www.test.com",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/movies/create?title=test&score=5&release_date=1/1/2001&image_url=www.test.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"create"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "test",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "score",
+									"value": "5",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "release_date",
+									"value": "1/1/2001",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "image_url",
+									"value": "www.test.com",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/movies?name=test",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/movies?title=test&order=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "test",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "order",
+									"value": "asc",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/movies",
+					"request": {
+						"url": "http://localhost:8080/movies",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/movies/details/test",
+					"request": {
+						"url": "http://localhost:8080/movies/details/test",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/movies/update/test?score=5&release_date=1/1/2001&image_url=www.test.com",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/movies/update/test?score=5&release_date=1/1/2001&image_url=www.test.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"update",
+								"test"
+							],
+							"query": [
+								{
+									"key": "score",
+									"value": "5",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "release_date",
+									"value": "1/1/2001",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "image_url",
+									"value": "www.test.com",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "ENTER_YOUR_TOKEN_HERE",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
