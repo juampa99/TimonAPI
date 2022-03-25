@@ -74,7 +74,7 @@ const updateMedia = async (media, newValues) => {
 };
 
 const deleteMedia = async (title) => {
-  const media = await MediaModel.findOne({ where: { title: title } });
+  const media = await MediaModel.findOne({ where: { title } });
   await media.destroy();
 };
 

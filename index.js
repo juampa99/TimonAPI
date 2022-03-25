@@ -4,8 +4,10 @@ const PORT = process.env.PORT || 8080;
 
 const setup = require('./setup');
 
-const app = setup();
+const setupApp = setup();
 
-app.listen(PORT, () => {
-  console.log(`Listening on ${PORT}`);
+setupApp.then(app => {
+  app.listen(PORT, () => {
+    console.log(`Listening on ${PORT}`);
+  });
 });
